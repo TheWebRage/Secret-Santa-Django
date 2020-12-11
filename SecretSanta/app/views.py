@@ -1,4 +1,5 @@
 import random
+from threading import Thread
 
 from django.apps import apps
 from django.contrib.auth.decorators import login_required
@@ -75,6 +76,7 @@ def save_data(request, object, is_new=False, **args):
     group_id = request.GET.get('group', form.get('group_id', False))
     group = Group.objects.filter(id=group_id).first()
     id = args.get('id', False)
+    is_required = request.POST.get('is_required', '') == 'on'
 
     if is_new:
         if object == 'group':
@@ -82,10 +84,11 @@ def save_data(request, object, is_new=False, **args):
             request.user.owned_groups.add(group)
 
         elif object == 'field':
-            group.fields.create(name=name)
+            group.fields.create(name=name, is_required=is_required)
     else:
         model_object = apps.get_model('app', object).objects.filter(id=id).first()
         model_object.name = name
+        model_object.is_required = is_required
         model_object.save()
 
         if object == 'group':
@@ -135,9 +138,6 @@ def delete(request, object, group_id, id):
 
 @login_required()
 def finish(request, id):
-    if request.method != 'POST':
-        return redirect('app:index')
-
     context = get_simple_users(id)
     users_before = context.get('simple_users', '')
     tracked_users = users_before
@@ -158,9 +158,9 @@ def finish(request, id):
 
             for field in context['fields'].filter():
                 body += field.name.title() + ': ' \
-                        '' + simple_user.fieldanswer_set.filter(field=field).last().answer + '\n'
+                        '' + assigned.fieldanswer_set.filter(field=field).last().answer + '\n'
 
-        send_mail('Secret Santa Assignment', body, settings.EMAIL_HOST_USER, [simple_user.email])
+        Thread(target=send_mail, args=('Secret Santa Assignment', body, settings.EMAIL_HOST_USER, [simple_user.email])).start()
         tracked_users = tracked_users.exclude(id=assigned.id)
 
     return redirect('app:group_detail', id=context['group'].id)

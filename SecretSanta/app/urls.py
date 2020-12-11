@@ -5,6 +5,7 @@ from . import views
 
 app_name = 'app'
 
+# TODO: add button to send emails to list of people automatically
 urlpatterns = [
     # Login Routes
     # path('', include('django.contrib.auth.urls')),

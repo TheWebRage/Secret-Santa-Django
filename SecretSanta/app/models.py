@@ -16,7 +16,6 @@ class SimpleUser(models.Model):
     assigned = models.ForeignKey('SimpleUser', blank=True, null=True, on_delete=models.CASCADE)
 
 
-# TODO: Maybe add many forms per group
 class Group(models.Model):
     def __str__(self):
         return self.name
@@ -25,14 +24,14 @@ class Group(models.Model):
     fields = models.ManyToManyField('Field')
     
 
-# TODO: Add ability to make fields required
 class Field(models.Model):
     def __str__(self):
         return self.name
 
     name = models.CharField(max_length=150)
+    is_required = models.BooleanField(default=False)
 
-# TODO: Allow for deleting of Submitted Entries
+
 class FieldAnswer(models.Model):
     def __str__(self):
         return self.answer

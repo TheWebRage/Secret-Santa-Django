@@ -7,17 +7,22 @@
           - create new group button
      -->
 
-    <h1>Groups</h1>
-    {% for group in groups %}
-        <span>
-            <a href="{% url 'app:group_detail' group.id %}">{{ group.name }}</a>
-            <a href="{% url 'app:delete' 'group' group.id group.id %}">DELETE</a>
-            <a href="{% url 'app:edit' 'group' group.id %}">EDIT</a>
-        </span>
-        <br>
-    {% endfor %}
-    <br>
-    <a href="{% url 'app:new' 'group' %}">Create new group</a>
+    <h1 class="display-3 title">Groups</h1>
+    <a class="btn btn-info float-right new-button" href="{% url 'app:new' 'group' %}">Create New</a>
 
+    <div>
+        {% for group in groups %}
+            <div class="card float-left">
+                <div class="card-body">
+                    <h5 class="card-title">{{ group.name }}</h5>
+                    <div style="margin-top: 20px;">
+                        <a class="btn btn-primary" href="{% url 'app:group_detail' group.id %}">DETAILS</a>
+                        <a class="btn btn-danger" href="{% url 'app:delete' 'group' group.id group.id %}">DELETE</a>
+                        <a class="btn btn-secondary" href="{% url 'app:edit' 'group' group.id %}">EDIT</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

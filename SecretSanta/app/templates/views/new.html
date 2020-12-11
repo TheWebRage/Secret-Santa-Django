@@ -5,7 +5,7 @@
         Layout:
           - ability to create new group
      -->
-    <h1>{{ model_object|yesno:'Edit,New' }} {{ object|title }}</h1>
+    <h1 class="display-3 title" style="margin-bottom: 50px;">{{ model_object|yesno:'Edit,New' }} {{ object|title }}</h1>
 
     <form action="" method="POST">
         {% csrf_token %}
@@ -17,10 +17,16 @@
         <input type="hidden" name="owner_id" value={{ user.id }}>
 
         <label for="name">Name: </label>
-        <input type="text" value="{{ model_object.name }}" name="name" placeholder="{{ object|title }} Name">
+        <input class="text-input" type="text" value="{{ model_object.name }}" name="name" placeholder="{{ object|title }} Name">
 
 
-        <button>Save</button>
+        {% if object == 'field' %}
+            <br>
+            <label for="is_required">Required?</label>
+            <input type="checkbox" name="is_required" checked="{{ model_object.is_required|yesno:'checked,' }}">
+        {% endif %}
+        <br>
+        <button class="btn btn-info">Save</button>
     </form>
 
 {% endblock %}

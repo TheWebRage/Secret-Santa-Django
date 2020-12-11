@@ -9,27 +9,35 @@
 {% extends 'components/base.html' %}
 
 {% block body %}
-    <h2>{{ group.name }}</h2>
+    <h1 class="display-3 title" style="margin-bottom: 50px;">{{ group.name }}</h1>
 
     <form action="" method="post">
         {% csrf_token %}
 
-        <label for="name">Name: </label>
-        <input type="text" name="name" placeholder="Required" required>
+        <div style="width: 400px;">
+            <div class="row row-margin">
+                <label for="name" class="col-6">Name: </label>
+                <input class="text-input col-6" type="text" name="name" placeholder="Required" required>
+            </div>
 
-        <br><br>
-        <label for="email">Email: </label>
-        <input type="email" name="email" placeholder="Required" required>
+            <div class="row row-margin">
+                <label for="email" class="col-6">Email: </label>
+                <input class="text-input col-6" type="email" name="email" placeholder="Required" required>
+            </div>
 
-        {% for field in fields %}
-            <p>
-                <label for="field-{{ field.id }}">{{ field.name }}</label>
-                <input type="text" name="field-{{ field.id }}">
-            </p>
-        {% endfor %}
+            {% for field in fields %}
+                <div class="row row-margin">
+                    <label class="col-6" for="field-{{ field.id }}">{{ field.name }}</label>
+                    <input class="text-input col-6" type="text" name="field-{{ field.id }}"
+                            {{ field.is_required|yesno:'required placeholder=Required,' }}>
+                </div>
+            {% endfor %}
 
-        <br><br>
-        <button>Submit</button>
+            <div>
+                <button class="btn btn-info" style="margin: auto;">Submit</button>
+            </div>
+        </div>
+
     </form>
 
 {% endblock %}

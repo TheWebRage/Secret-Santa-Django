@@ -7,42 +7,49 @@
         - create / edit fields button
         - show who has submitted results
     -->
-    <h1>{{ group.name }}</h1>
-    <a href="{% url 'app:form' group.id %}">Go to form</a>
+    <h1 class="display-3 title">{{ group.name }}</h1>
+    <a class="btn btn-success float-right new-button" href="{% url 'app:form' group.id %}">Go to Form</a>
 
     <div class="row group-desc-body">
         <div class="col-6">
-            <h3>Form Fields</h3>
-            <p>Name</p>
-            <p>Email</p>
-            {% for field in fields %}
-                <p>
-                <span>{{ field.name }}
-                    <a href="{% url 'app:delete' 'field' group.id field.id %}">DELETE</a>
-                    <a href="{% url 'app:edit' 'field' field.id %}">EDIT</a>
-                </span>
-                </p>
-            {% endfor %}
+            <h3 class="display-4">Form Fields</h3>
+            <p style="margin-top: 25px;">Name</p>
+            <p style="margin-top: 25px;">Email</p>
 
-            <br>
-            <a href="{% url 'app:new' 'field' %}?group={{ group.id }}">Add New Field</a>
+            <div style="width: 65%;">
+                {% for field in fields %}
+                <div class="row" style="margin-top: 25px;">
+                    <span class="col-8">{{ field.name }}</span>
+
+                    <div class="col-4">
+                        <a class="btn btn-danger" href="{% url 'app:delete' 'field' group.id field.id %}">DELETE</a>
+                        <a class="btn btn-secondary" href="{% url 'app:edit' 'field' field.id %}">EDIT</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+            <a style="margin-top: 25px;" class="btn btn-info" href="{% url 'app:new' 'field' %}?group={{ group.id }}">Add New Field</a>
         </div>
 
         <div class="col-6">
-            <h3>Submitted Entries</h3>
+            <h3 class="display-4">Submitted Entries</h3>
             {% if simple_users.count == 0 %}
                 <p>There are no submissions yet.</p>
             {% endif %}
 
-            {% for simple_user in simple_users %}
-                <p>{{ simple_user.name }} - {{ simple_user.email }}</p>
-            {% endfor %}
+            <div style="width: 65%;">
+                {% for simple_user in simple_users %}
+                    <div style="width: 100%; margin-top: 25px;" class="row">
+                        <div class="col-8">{{ simple_user.name }} - {{ simple_user.email }}</div>
+                        <div class="col-1"></div>
+                        <a class="btn btn-danger col-3" style=" height:40px;"
+                           href="{% url 'app:delete' 'simpleuser' group.id simple_user.id %}">DELETE</a>
+                    </div>
+                {% endfor %}
+            </div>
 
-            <br>
-            <form action="{% url 'app:finish' group.id %}" method="POST">
-                {% csrf_token %}
-                <button>Finish</button>
-            </form>
+            <a style="margin-top: 15px; font-size:1.5em;" class="btn btn-info" href="{% url 'app:finish' group.id %}">Finish</a>
         </div>
     </div>
 
