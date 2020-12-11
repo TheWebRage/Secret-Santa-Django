@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"python.pythonpath": "C:\\Users\\einnu\\Documents\\Notes\\Projects\\CS3620 Final\\Secret-Santa-Django\\SecretSanta\\venv\\Scripts\\python.exe"
+		}
+	}
+}

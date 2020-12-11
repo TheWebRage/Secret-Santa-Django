@@ -1,0 +1,23 @@
+{% extends 'components/base.html' %}
+
+{% block body %}
+    <!--
+        Layout:
+          - list groups owned by user
+          - create new group button
+     -->
+
+    <h1>Groups</h1>
+    {% for group in groups %}
+        <span>
+            <a href="{% url 'app:group_detail' group.id %}">{{ group.name }}</a>
+            <a href="{% url 'app:delete' 'group' group.id group.id %}">DELETE</a>
+            <a href="{% url 'app:edit' 'group' group.id %}">EDIT</a>
+        </span>
+        <br>
+    {% endfor %}
+    <br>
+    <a href="{% url 'app:new' 'group' %}">Create new group</a>
+
+
+{% endblock %}

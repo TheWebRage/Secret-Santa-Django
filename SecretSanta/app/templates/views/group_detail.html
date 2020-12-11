@@ -1,0 +1,49 @@
+{% extends 'components/base.html' %}
+
+{% block body %}
+
+    <!--
+      Layout:
+        - create / edit fields button
+        - show who has submitted results
+    -->
+    <h1>{{ group.name }}</h1>
+    <a href="{% url 'app:form' group.id %}">Go to form</a>
+
+    <div class="row group-desc-body">
+        <div class="col-6">
+            <h3>Form Fields</h3>
+            <p>Name</p>
+            <p>Email</p>
+            {% for field in fields %}
+                <p>
+                <span>{{ field.name }}
+                    <a href="{% url 'app:delete' 'field' group.id field.id %}">DELETE</a>
+                    <a href="{% url 'app:edit' 'field' field.id %}">EDIT</a>
+                </span>
+                </p>
+            {% endfor %}
+
+            <br>
+            <a href="{% url 'app:new' 'field' %}?group={{ group.id }}">Add New Field</a>
+        </div>
+
+        <div class="col-6">
+            <h3>Submitted Entries</h3>
+            {% if simple_users.count == 0 %}
+                <p>There are no submissions yet.</p>
+            {% endif %}
+
+            {% for simple_user in simple_users %}
+                <p>{{ simple_user.name }} - {{ simple_user.email }}</p>
+            {% endfor %}
+
+            <br>
+            <form action="{% url 'app:finish' group.id %}" method="POST">
+                {% csrf_token %}
+                <button>Finish</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

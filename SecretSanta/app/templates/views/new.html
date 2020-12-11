@@ -1,0 +1,26 @@
+{% extends 'components/base.html' %}
+
+{% block body %}
+    <!--
+        Layout:
+          - ability to create new group
+     -->
+    <h1>{{ model_object|yesno:'Edit,New' }} {{ object|title }}</h1>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {% if object == 'field' %}
+            <input type="hidden" name="group_id" value={{ group.id }}>
+        {% endif %}
+
+        <input type="hidden" name="owner_id" value={{ user.id }}>
+
+        <label for="name">Name: </label>
+        <input type="text" value="{{ model_object.name }}" name="name" placeholder="{{ object|title }} Name">
+
+
+        <button>Save</button>
+    </form>
+
+{% endblock %}

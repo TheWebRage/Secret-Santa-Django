@@ -1,0 +1,16 @@
+.body {
+    width: 90%;
+    margin: auto;
+}
+
+.helptext {
+    display: none;
+}
+
+.navbar {
+    margin-bottom: 10px;
+}
+
+.group-desc-body {
+    margin-top: 30px;
+}
